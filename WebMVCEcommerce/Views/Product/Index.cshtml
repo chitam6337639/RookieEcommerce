@@ -1,0 +1,21 @@
+﻿@using StandardLibrary
+@model List<ProductDto>
+@{
+    ViewData["Title"] = "Products Page";
+    var productList = (ViewData["Products"] as List<ProductDto>)!;
+}
+<div class="text-center">
+    <h1 class="display-4">Welcome Product page</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <ul>
+        @foreach (var product in @Model)
+        {
+            <li>
+                <h1>@product.ProductName</h1>
+                <p>@product.ProductDescription</p>
+                <p>@product.Price</p>
+            </li>
+        }
+    </ul>
+</div>
