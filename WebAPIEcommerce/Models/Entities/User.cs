@@ -7,6 +7,6 @@ namespace WebAPIEcommerce.Models.Entities
         public string? FirstName { get; set; }
         public string? LastName {  get; set; }
         public string? ShippingAddress { get; set; }
-        public ICollection<Order>? Orders { get; set; }
+        public List<Order>? Orders { get; set; }
     }
 }

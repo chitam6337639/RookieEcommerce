@@ -12,8 +12,8 @@ using WebAPIEcommerce.Data.DataContext;
 namespace WebAPIEcommerce.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240514103845_SeedRole")]
-    partial class SeedRole
+    [Migration("20240516103942_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace WebAPIEcommerce.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bfd4f1f4-4f8f-4405-b32d-9f6a41b777de",
+                            Id = "61bc033c-5429-4b73-a8f9-ef6b5c8dd68c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "3aefd94e-89f0-41e7-86d7-6502b194d2ef",
+                            Id = "874b6f70-0555-4ef1-b195-4aa5c9f01721",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -180,15 +180,59 @@ namespace WebAPIEcommerce.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
 
-                    b.Property<string>("CategoryDescription")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CategoryName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
                     b.HasKey("CategoryId");
 
+                    b.HasIndex("ParentId");
+
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "MEN"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "WOMEN"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Bags",
+                            ParentId = 1
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            CategoryName = "Wallets",
+                            ParentId = 1
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            CategoryName = "Shoes",
+                            ParentId = 2
+                        },
+                        new
+                        {
+                            CategoryId = 7,
+                            CategoryName = "Wallets",
+                            ParentId = 2
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            CategoryName = "Handbags",
+                            ParentId = 2
+                        });
                 });
 
             modelBuilder.Entity("WebAPIEcommerce.Models.Entities.Order", b =>
@@ -261,7 +305,7 @@ namespace WebAPIEcommerce.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("ImageURL")
@@ -335,7 +379,6 @@ namespace WebAPIEcommerce.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ShippingAddress")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -409,6 +452,16 @@ namespace WebAPIEcommerce.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebAPIEcommerce.Models.Entities.Category", b =>
+                {
+                    b.HasOne("WebAPIEcommerce.Models.Entities.Category", "Parent")
+                        .WithMany("SubCategories")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("WebAPIEcommerce.Models.Entities.Order", b =>
                 {
                     b.HasOne("WebAPIEcommerce.Models.Entities.User", "User")
@@ -441,7 +494,9 @@ namespace WebAPIEcommerce.Migrations
                 {
                     b.HasOne("WebAPIEcommerce.Models.Entities.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Category");
                 });
@@ -449,6 +504,8 @@ namespace WebAPIEcommerce.Migrations
             modelBuilder.Entity("WebAPIEcommerce.Models.Entities.Category", b =>
                 {
                     b.Navigation("Products");
+
+                    b.Navigation("SubCategories");
                 });
 
             modelBuilder.Entity("WebAPIEcommerce.Models.Entities.Order", b =>

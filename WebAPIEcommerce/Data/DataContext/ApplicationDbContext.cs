@@ -26,8 +26,9 @@ namespace WebAPIEcommerce.Data.DataContext
             var WALLETS = new Category { CategoryId = 4, CategoryName = "Wallets", ParentId = MEN.CategoryId };
             var HANDBAGW = new Category { CategoryId = 5, CategoryName = "Handbags", ParentId = WOMEN.CategoryId };
             var SHOESW = new Category { CategoryId = 6, CategoryName = "Shoes", ParentId = WOMEN.CategoryId };
+            var WALLETSW = new Category { CategoryId = 7, CategoryName = "Wallets", ParentId = WOMEN.CategoryId };
 
-            builder.Entity<Category>().HasData(MEN, WOMEN, BAGS, WALLETS, SHOESW);
+            builder.Entity<Category>().HasData(MEN, WOMEN, BAGS, WALLETS, SHOESW, WALLETSW, HANDBAGW);
 
             var Bag = new Product { ProductId = 1, ProductName= "Ethan Backpack In Signature Canvas", Price=200, ImageURL ="", ProductDescription= "",  };
 

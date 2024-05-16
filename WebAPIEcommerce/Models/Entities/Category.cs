@@ -8,9 +8,9 @@ namespace WebAPIEcommerce.Models.Entities
         public string? CategoryName { get; set; }
         public int? ParentId { get; set; }
         [NotMapped]
-        public Category? Parent { get; set; } 
-        public ICollection<Category>? SubCategories { get; set; }
-        public ICollection<Product>? Products { get; set;}
+        public Category? Parent { get; set; }
+        public List<Category> SubCategories { get; set; } = new(); 
+        public List<Product> Products { get; set; } = new();
 
     }
 }

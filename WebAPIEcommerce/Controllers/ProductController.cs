@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StandardLibrary;
 using WebAPIEcommerce.Interfaces;
 using WebAPIEcommerce.Models.Entities;
 
@@ -16,21 +17,18 @@ namespace WebAPIEcommerce.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct([FromBody] Product product)
+        public async Task<ActionResult<ProductDto>> CreateProduct(ProductDto productDto)
         {
-            if (product == null)
-            {
-                return BadRequest();
-            }
-            var newProduct = await _productRepository.CreateProduct(product);
-            return CreatedAtAction(nameof(product), new { id = newProduct.ProductId }, newProduct);
-
+            var addedProduct = await _productRepository.CreateProduct(productDto);
+            return CreatedAtAction(nameof(GetProducts), new { id = addedProduct.ProductName }, addedProduct);
         }
+
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
             var products = await _productRepository.GetProducts();
             return Ok(products);
         }
+        
     }
 }

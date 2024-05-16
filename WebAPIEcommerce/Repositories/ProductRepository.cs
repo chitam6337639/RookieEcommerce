@@ -13,11 +13,31 @@ namespace WebAPIEcommerce.Repositories
         {
             _context = context;
         }
-        public async Task<Product> CreateProduct(Product product)
+        public async Task<ProductDto> CreateProduct(ProductDto productDto)
         {
+            
+            var product = new Product
+            {
+                ProductName = productDto.ProductName,
+                ProductDescription = productDto.ProductDescription,
+                Price = productDto.Price,
+                ImageURL = productDto.ImageURL,
+                CategoryId = productDto.CategoryId,
+                
+            };
+
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
-            return product;
+
+            return new ProductDto
+            {
+                ProductName = product.ProductName,
+                ProductDescription = product.ProductDescription,
+                Price = product.Price,
+                ImageURL = product.ImageURL,
+                CategoryId = product.CategoryId,
+                
+            };
         }
 
         public async Task<List<ProductDto>> GetProducts()

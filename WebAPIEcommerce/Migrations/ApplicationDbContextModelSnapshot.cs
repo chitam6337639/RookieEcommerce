@@ -51,13 +51,13 @@ namespace WebAPIEcommerce.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "422d0631-f5e9-42d6-b9e2-594523846556",
+                            Id = "61bc033c-5429-4b73-a8f9-ef6b5c8dd68c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "f826a182-289f-41b6-8cfc-920e127c4360",
+                            Id = "874b6f70-0555-4ef1-b195-4aa5c9f01721",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -217,6 +217,18 @@ namespace WebAPIEcommerce.Migrations
                             CategoryId = 6,
                             CategoryName = "Shoes",
                             ParentId = 2
+                        },
+                        new
+                        {
+                            CategoryId = 7,
+                            CategoryName = "Wallets",
+                            ParentId = 2
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            CategoryName = "Handbags",
+                            ParentId = 2
                         });
                 });
 
@@ -290,7 +302,7 @@ namespace WebAPIEcommerce.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("ImageURL")
@@ -479,7 +491,9 @@ namespace WebAPIEcommerce.Migrations
                 {
                     b.HasOne("WebAPIEcommerce.Models.Entities.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Category");
                 });

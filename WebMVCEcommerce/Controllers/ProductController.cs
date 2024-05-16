@@ -16,7 +16,7 @@ namespace WebMVCEcommerce.Controllers
         {
             _logger.LogInformation("Get Products from API");
             var products = await _productApiClient.GetProducts();
-            ViewData["Products"] = products;
+            //ViewData["Products"] = products;
             return View(products);
         }
     }

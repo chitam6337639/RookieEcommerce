@@ -13,6 +13,6 @@ namespace StandardLibrary
         public string? ProductDescription { get; set; }
         public decimal Price { get; set; }
         public string? ImageURL { get; set; }
-        public int? CategoryId { get; set; }
+        public int CategoryId { get; set; }
     }
 }
