@@ -1,21 +1,28 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebMVCEcommerce.Models;
+using WebMVCEcommerce.Services.Product;
 
 namespace WebMVCEcommerce.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IProductApiClient _productApiClient;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IProductApiClient productApiClient)
         {
             _logger = logger;
+            _productApiClient = productApiClient;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            _logger.LogInformation("Get Products from API");
+            var products = await _productApiClient.GetProducts();
+            //ViewData["Products"] = products;
+            return View(products);
+            //return View();
         }
 
         public IActionResult Privacy()

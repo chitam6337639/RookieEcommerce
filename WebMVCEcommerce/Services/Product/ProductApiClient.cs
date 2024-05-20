@@ -22,6 +22,15 @@ namespace WebMVCEcommerce.Services.Product
             var productList = JsonConvert.DeserializeObject<List<ProductDto>>(content)!;
             return productList;
         }
+		public async Task<ProductDto> GetProductById(int id)
+		{
+			var response = await _httpClient.GetAsync($"/api/product/{id}");
+			response.EnsureSuccessStatusCode();
 
-    }
+			var content = await response.Content.ReadAsStringAsync();
+			var product = JsonConvert.DeserializeObject<ProductDto>(content);
+			return product;
+		}
+
+	}
 }

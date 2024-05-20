@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StandardLibrary;
+using StandardLibrary.Category;
 using WebAPIEcommerce.Data.DataContext;
 using WebAPIEcommerce.Interfaces;
 using WebAPIEcommerce.Models.Entities;
@@ -12,22 +12,6 @@ namespace WebAPIEcommerce.Repositories
         public CategoryRepository(ApplicationDbContext context)
         {
             _context = context;
-        }
-
-        public async Task<List<CategoryDto>> GetCategories()
-        {
-            return await _context.Categories
-                .Select(c => new CategoryDto
-                {
-                    CategoryId = c.CategoryId,
-                    CategoryName = c.CategoryName,
-                    ParentId = c.ParentId,
-                }).ToListAsync();
-        }
-
-        public async Task<IEnumerable<Category>> GetSubCategories(int parentId)
-        {
-            return await _context.Categories.Where(c => c.ParentId == parentId).ToListAsync();
         }
 
         public async Task<List<CategoryDto>> GetAllCategoriesAsync()
@@ -44,6 +28,56 @@ namespace WebAPIEcommerce.Repositories
                 CategoryName = category.CategoryName,
                 SubCategories = MapCategoriesToDTO(category.SubCategories)
             }).ToList();
+        }
+        public async Task<CategoryDto> CreateCategory(CreateCategoryDto createCategoryDto)
+        {
+            var category = new Category
+            {
+                CategoryName = createCategoryDto.CategoryName,
+                ParentId = createCategoryDto.ParentId
+            };
+            _context.Categories.Add(category);
+            await _context.SaveChangesAsync();
+
+            return new CategoryDto
+            {
+                CategoryId = category.CategoryId,
+                CategoryName = category.CategoryName,
+                ParentId = category.ParentId
+            };
+        }
+
+        public async Task<CategoryDto> UpdateCategory(int categoryId, CreateCategoryDto createCategoryDto)
+        {
+            var category = await _context.Categories.FindAsync(categoryId);
+            if (category == null)
+            {
+                return null;
+            }
+            category.CategoryName = createCategoryDto.CategoryName;
+            category.ParentId = createCategoryDto.ParentId;
+
+            _context.Categories.Update(category);
+            await _context.SaveChangesAsync();
+
+            return new CategoryDto
+            {
+                CategoryId = category.CategoryId,
+                CategoryName = category.CategoryName,
+                ParentId = category.ParentId
+            };
+        }
+
+        public async Task<bool> DeleteCategory(int categoryId)
+        {
+            var category = await _context.Categories.FindAsync(categoryId);
+            if (category == null)
+            {
+                return false;
+            }
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
     }

@@ -29,6 +29,42 @@ namespace WebAPIEcommerce.Controllers
             var products = await _productRepository.GetProducts();
             return Ok(products);
         }
-        
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductById(int id)
+        {
+            var product = await _productRepository.GetProductId(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, ProductDto productDto)
+        {
+            var result = await _productRepository.UpdateProduct(id,productDto);
+            if (!result)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var result = await _productRepository.DeleteProduct(id);
+            if (!result)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
     }
 }

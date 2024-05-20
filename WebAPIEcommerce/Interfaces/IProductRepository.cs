@@ -7,5 +7,8 @@ namespace WebAPIEcommerce.Interfaces
     {
         Task<ProductDto> CreateProduct(ProductDto productDto);
         Task<List<ProductDto>> GetProducts();
+        Task<ProductDto> GetProductId(int id);
+        Task<bool> UpdateProduct(int id,ProductDto productDto);
+        Task<bool> DeleteProduct(int id);
     }
 }

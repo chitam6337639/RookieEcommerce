@@ -19,5 +19,16 @@ namespace WebMVCEcommerce.Controllers
             //ViewData["Products"] = products;
             return View(products);
         }
-    }
+		public async Task<IActionResult> Details(int id)
+		{
+			_logger.LogInformation($"Getting product details for ID: {id}");
+			var product = await _productApiClient.GetProductById(id);
+			if (product == null)
+			{
+				return NotFound();
+			}
+			return View(product);
+		}
+
+	}
 }
