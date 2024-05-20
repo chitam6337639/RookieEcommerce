@@ -1,3 +1,4 @@
+using WebMVCEcommerce.Services.Category;
 using WebMVCEcommerce.Services.Product;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient<IProductApiClient, ProductApiClient>();
+builder.Services.AddHttpClient<ICategoryApiClient, CategoryApiClient>();
 
 var app = builder.Build();
 

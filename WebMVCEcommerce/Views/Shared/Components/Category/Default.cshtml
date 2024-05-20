@@ -1,0 +1,44 @@
+﻿@model List<StandardLibrary.Category.CategoryDto>
+
+<div class="menu-desktop">
+    <ul class="main-menu">
+        @foreach (var category in Model)
+        {
+            if (category.CategoryName == "MEN" || category.CategoryName == "WOMEN")
+            {
+                <li>
+                    <a href="#">@category.CategoryName</a>
+                    @if (category.SubCategories.Any())
+                    {
+                        <ul class="sub-menu">
+                            @foreach (var subCategory in category.SubCategories)
+                            {
+                                <li><a href="#">@subCategory.CategoryName</a></li>
+                            }
+                        </ul>
+                    }
+                </li>
+            }
+        }
+        <li>
+            <a href="product.html">Shop</a>
+        </li>
+
+        <li class="label1" data-label1="hot">
+            <a href="shoping-cart.html">Features</a>
+        </li>
+
+        <li>
+            <a href="blog.html">Blog</a>
+        </li>
+
+        <li>
+            <a href="about.html">About</a>
+        </li>
+
+        <li>
+            <a href="contact.html">Contact</a>
+        </li>
+    </ul>
+</div>
+

@@ -79,7 +79,8 @@
 					</a>
 
 					<!-- Menu desktop -->
-					<div class="menu-desktop">
+					@await Component.InvokeAsync("Category")
+					@* <div class="menu-desktop">
 						<ul class="main-menu">
 							<li class="">
 								<a href="index.html">Woman</a>
@@ -118,7 +119,7 @@
 								<a href="contact.html">Contact</a>
 							</li>
 						</ul>
-					</div>
+					</div> *@
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
