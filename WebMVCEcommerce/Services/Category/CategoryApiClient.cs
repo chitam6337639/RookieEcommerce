@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
-using StandardLibrary;
 using StandardLibrary.Category;
 
 namespace WebMVCEcommerce.Services.Category
 {
-	public class CategoryApiClient : ICategoryApiClient
+    public class CategoryApiClient : ICategoryApiClient
 	{
 		private readonly HttpClient _httpClient;
 

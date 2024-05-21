@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StandardLibrary;
+using StandardLibrary.Product;
 using WebAPIEcommerce.Data.DataContext;
 using WebAPIEcommerce.Interfaces;
 using WebAPIEcommerce.Models.Entities;

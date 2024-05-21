@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StandardLibrary;
+using StandardLibrary.Product;
 using WebAPIEcommerce.Interfaces;
 using WebAPIEcommerce.Models.Entities;
 

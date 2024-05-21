@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using StandardLibrary.Account;
 using WebAPIEcommerce.Data.Dtos.Account;
+using WebAPIEcommerce.Interfaces;
 using WebAPIEcommerce.Models.Entities;
 
 namespace WebAPIEcommerce.Controllers
@@ -10,9 +12,11 @@ namespace WebAPIEcommerce.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
-        public AccountController(UserManager<User> userManager)
+        private readonly ITokenService _tokenService;
+        public AccountController(UserManager<User> userManager, ITokenService tokenService)
         {
             _userManager = userManager;
+            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
@@ -37,14 +41,14 @@ namespace WebAPIEcommerce.Controllers
                     var roleResult = await _userManager.AddToRoleAsync(user, "User");
                     if (roleResult.Succeeded)
                     {
-                        return Ok("User Create");
-                            //new NewUserDto
-                            //{
-                            //    FirstName = user.FirstName!,
-                            //    LastName = user.LastName!,
-                            //    Email = user.Email!,
-                            //    Token = _tokenService.CreateToken(user)
-                            //});
+                        return Ok(
+                            new NewUserDto
+                            {
+                                UserName = user.UserName,
+                                Email = user.Email!,
+                                Token = _tokenService.CreateToken(user)
+                            });
+                            
                     }
                     else
                     {

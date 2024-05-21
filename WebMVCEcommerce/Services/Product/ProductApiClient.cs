@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using StandardLibrary;
+using StandardLibrary.Product;
 using System.Text.Json;
 
 namespace WebMVCEcommerce.Services.Product

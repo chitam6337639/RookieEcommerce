@@ -1,4 +1,4 @@
-﻿using StandardLibrary;
+﻿using StandardLibrary.Product;
 using WebAPIEcommerce.Models.Entities;
 
 namespace WebAPIEcommerce.Interfaces

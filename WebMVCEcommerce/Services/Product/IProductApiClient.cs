@@ -1,4 +1,4 @@
-﻿using StandardLibrary;
+﻿using StandardLibrary.Product;
 
 namespace WebMVCEcommerce.Services.Product
 {

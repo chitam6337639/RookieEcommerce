@@ -1,5 +1,4 @@
-﻿using StandardLibrary;
-using StandardLibrary.Category;
+﻿using StandardLibrary.Category;
 using WebAPIEcommerce.Models.Entities;
 
 namespace WebAPIEcommerce.Interfaces
