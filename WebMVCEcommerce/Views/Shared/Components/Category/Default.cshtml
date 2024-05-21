@@ -13,7 +13,7 @@
                         <ul class="sub-menu">
                             @foreach (var subCategory in category.SubCategories)
                             {
-                                <li><a href="#">@subCategory.CategoryName</a></li>
+                                <li><a asp-controller="Category" asp-action="CategoryDetail" asp-route-id="@subCategory.CategoryId">@subCategory.CategoryName</a></li>
                             }
                         </ul>
                     }

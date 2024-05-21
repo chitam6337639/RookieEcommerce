@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StandardLibrary;
 using StandardLibrary.Category;
 using WebAPIEcommerce.Data.DataContext;
 using WebAPIEcommerce.Interfaces;
@@ -80,6 +81,30 @@ namespace WebAPIEcommerce.Repositories
             return true;
         }
 
-    }
+        public async Task<CategoryDetailDto> GetCategoryDetailAsync(int categoryId)
+        {
+            var category = await _context.Categories
+                                          .Include(c => c.Products)
+                                          .FirstOrDefaultAsync(c => c.CategoryId == categoryId);
+            if (category == null)
+            {
+                return null;
+            }
+
+            return new CategoryDetailDto
+            {
+                CategoryId = category.CategoryId,
+                CategoryName = category.CategoryName,
+                Products = category.Products.Select(p => new ProductDto
+                {
+                    ProductId = p.ProductId,
+                    ProductName = p.ProductName,
+                    ProductDescription = p.ProductDescription,
+                    Price = p.Price
+                }).ToList()
+            };
+        }
+
+	}
     
 }

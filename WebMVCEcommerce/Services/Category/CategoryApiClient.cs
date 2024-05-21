@@ -22,5 +22,14 @@ namespace WebMVCEcommerce.Services.Category
 			var categorieslist = JsonConvert.DeserializeObject<List<CategoryDto>>(content)!;
 			return categorieslist;
 		}
+		public async Task<CategoryDetailDto> GetCategoryDetail(int categoryId)
+		{
+			var response = await _httpClient.GetAsync($"/api/category/{categoryId}/details");
+			response.EnsureSuccessStatusCode();
+
+			var content = await response.Content.ReadAsStringAsync();
+			var categoryDetail = JsonConvert.DeserializeObject<CategoryDetailDto>(content)!;
+			return categoryDetail;
+		}
 	}
 }

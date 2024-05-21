@@ -13,10 +13,19 @@ namespace WebMVCEcommerce.Controllers
 			_logger = logger;
 			_categoryApiClient = categoryApiClient;
 		}
-		public async Task<IActionResult> CategoryDetail()
+		public async Task<IActionResult> Index()
 		{
 			var categories = await _categoryApiClient.GetCategories();
 			return View(categories);
+		}
+		public async Task<IActionResult> CategoryDetail(int id) 
+		{
+			var categoryDetail = await _categoryApiClient.GetCategoryDetail(id);
+			if (categoryDetail == null)
+			{
+				return NotFound();
+			}
+			return View(categoryDetail);
 		}
 
 	}

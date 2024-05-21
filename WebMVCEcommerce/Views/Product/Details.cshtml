@@ -48,9 +48,11 @@
 
 			<div class="col-md-6 col-lg-5 p-b-30">
 				<div class="p-r-50 p-t-5 p-lr-0-lg">
-					<h4 class="mtext-105 cl2 js-name-detail p-b-14">
-						@Model.ProductName
-					</h4>
+					<a asp-controller="Product" asp-action="Index" asp-route-id="">
+						<h4 class="mtext-105 cl2 js-name-detail p-b-14">
+							@Model.ProductName
+						</h4>
+					</a>
 
 					<span class="mtext-106 cl2">
 						$@Model.Price

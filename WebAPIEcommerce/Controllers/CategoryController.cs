@@ -21,8 +21,6 @@ namespace WebAPIEcommerce.Controllers
 
 		}
 
-
-
 		[HttpGet("all")]
         public async Task<IActionResult> GetAllCategories()
         {
@@ -77,5 +75,16 @@ namespace WebAPIEcommerce.Controllers
             }
             return NoContent();
         }
-    }
+
+		[HttpGet("{id}/details")]
+		public async Task<IActionResult> GetCategoryDetail(int id)
+		{
+			var categoryDetail = await _categoryRepository.GetCategoryDetailAsync(id);
+			if (categoryDetail == null)
+			{
+				return NotFound();
+			}
+			return Ok(categoryDetail);
+		}
+	}
 }

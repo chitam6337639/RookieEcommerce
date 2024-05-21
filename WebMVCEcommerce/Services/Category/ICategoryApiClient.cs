@@ -6,5 +6,7 @@ namespace WebMVCEcommerce.Services.Category
 	public interface ICategoryApiClient
 	{
 		Task<List<CategoryDto>> GetCategories();
+		Task<CategoryDetailDto> GetCategoryDetail(int categoryId);
+
 	}
 }
