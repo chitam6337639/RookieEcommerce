@@ -15,6 +15,7 @@ namespace WebAPIEcommerce.Data.DataContext
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<OrderDetail> OrderDetails { get; set; } = null!;
+        public DbSet<Comment> Comments { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

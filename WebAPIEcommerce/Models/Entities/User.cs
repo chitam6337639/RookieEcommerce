@@ -8,5 +8,6 @@ namespace WebAPIEcommerce.Models.Entities
         public string? LastName {  get; set; }
         public string? ShippingAddress { get; set; }
         public List<Order>? Orders { get; set; }
+        public List<Comment>? Comments { get; set; } 
     }
 }

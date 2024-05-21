@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPIEcommerce.Data.DataContext;
 
@@ -11,9 +12,11 @@ using WebAPIEcommerce.Data.DataContext;
 namespace WebAPIEcommerce.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240521085032_addComment")]
+    partial class addComment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace WebAPIEcommerce.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "08a5cb5c-16e0-443c-9498-deea5e419281",
+                            Id = "31fd8324-26e6-443a-a25b-21a09d050d17",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "1a6c45da-41a3-4b24-8223-3e74a7359295",
+                            Id = "5f1cf286-e846-46ae-ab7a-eb1172ca7b8c",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -250,7 +253,10 @@ namespace WebAPIEcommerce.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("rating")
@@ -260,7 +266,7 @@ namespace WebAPIEcommerce.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Comments");
                 });
@@ -502,7 +508,7 @@ namespace WebAPIEcommerce.Migrations
 
                     b.HasOne("WebAPIEcommerce.Models.Entities.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("Product");
 
