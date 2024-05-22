@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using StandardLibrary.Comment;
 using StandardLibrary.Product;
 using System.Text.Json;
 
@@ -30,6 +31,15 @@ namespace WebMVCEcommerce.Services.Product
 			var content = await response.Content.ReadAsStringAsync();
 			var product = JsonConvert.DeserializeObject<ProductDto>(content);
 			return product;
+		}
+		public async Task<List<CommentDto>> GetProductComments(int productId)
+		{
+			var response = await _httpClient.GetAsync($"/api/comment/{productId}");
+			response.EnsureSuccessStatusCode();
+
+			var content = await response.Content.ReadAsStringAsync();
+			var comments = JsonConvert.DeserializeObject<List<CommentDto>>(content);
+			return comments!;
 		}
 
 	}

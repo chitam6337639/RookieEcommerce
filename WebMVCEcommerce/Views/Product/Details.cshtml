@@ -1,6 +1,6 @@
-﻿@using StandardLibrary
-@using StandardLibrary.Product
-@model ProductDto
+﻿@using StandardLibrary.Product
+@model ProductCommentDto
+ 
 @{
     ViewData["Title"] = "Details";
 }
@@ -52,16 +52,16 @@
 				<div class="p-r-50 p-t-5 p-lr-0-lg">
 					<a asp-controller="Product" asp-action="Index" asp-route-id="">
 						<h4 class="mtext-105 cl2 js-name-detail p-b-14">
-							@Model.ProductName
+							@Model.Product.ProductName
 						</h4>
 					</a>
 
 					<span class="mtext-106 cl2">
-						$@Model.Price
+						$@Model.Product.Price
 					</span>
 
 					<p class="stext-102 cl3 p-t-23">
-						@Model.ProductDescription
+						@Model.Product.ProductDescription
 					</p>
 
 			
@@ -131,7 +131,7 @@
 					<div class="tab-pane fade show active" id="description" role="tabpanel">
 						<div class="how-pos2 p-lr-15-md">
 							<p class="stext-102 cl6">
-								@Model.ProductDescription
+							@Model.Product.ProductDescription
 							</p>
 						</div>
 					</div>
@@ -142,31 +142,40 @@
 							<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
 								<div class="p-b-30 m-lr-15-sm">
 									<!-- Review -->
+								@foreach (var comment in Model.Comments)
+								{
 									<div class="flex-w flex-t p-b-68">
 										<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-											<img src="images/avatar-01.jpg" alt="AVATAR">
+											<img src="~/images/avatar-01.jpg" alt="AVATAR">
 										</div>
 
 										<div class="size-207">
 											<div class="flex-w flex-sb-m p-b-17">
 												<span class="mtext-107 cl2 p-r-20">
-													Ariana Grande
+													@comment.UserName
 												</span>
 
 												<span class="fs-18 cl11">
-													<i class="zmdi zmdi-star"></i>
-													<i class="zmdi zmdi-star"></i>
-													<i class="zmdi zmdi-star"></i>
-													<i class="zmdi zmdi-star"></i>
-													<i class="zmdi zmdi-star-half"></i>
+													@for (int i = 0; i < 5; i++)
+													{
+														if (i < comment.Rating)
+														{
+															<i class="zmdi zmdi-star"></i>
+														}
+														else
+														{
+															<i class="zmdi zmdi-star-outline"></i>
+														}
+													}
 												</span>
 											</div>
 
 											<p class="stext-102 cl6">
-												Quod autem in homine praestantissimum atque optimum est, id deseruit. Apud ceteros autem philosophos
+												@comment.CommentText
 											</p>
 										</div>
 									</div>
+								}
 
 									<!-- Add review -->
 									<form class="w-full">

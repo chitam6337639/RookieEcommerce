@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StandardLibrary.Product;
+using WebMVCEcommerce.Models;
 using WebMVCEcommerce.Services.Product;
 
 namespace WebMVCEcommerce.Controllers
@@ -19,6 +21,7 @@ namespace WebMVCEcommerce.Controllers
             //ViewData["Products"] = products;
             return View(products);
         }
+		
 		public async Task<IActionResult> Details(int id)
 		{
 			_logger.LogInformation($"Getting product details for ID: {id}");
@@ -27,7 +30,15 @@ namespace WebMVCEcommerce.Controllers
 			{
 				return NotFound();
 			}
-			return View(product);
+
+			var comments = await _productApiClient.GetProductComments(id);
+			var productComment = new ProductCommentDto
+			{
+				Product = product,
+				Comments = comments
+			};
+
+			return View(productComment);
 		}
 
 	}

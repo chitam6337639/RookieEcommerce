@@ -1,4 +1,5 @@
-﻿using StandardLibrary.Product;
+﻿using StandardLibrary.Comment;
+using StandardLibrary.Product;
 
 namespace WebMVCEcommerce.Services.Product
 {
@@ -6,6 +7,7 @@ namespace WebMVCEcommerce.Services.Product
     {
         Task<List<ProductDto>> GetProducts();
 		Task<ProductDto> GetProductById(int id);
+		Task<List<CommentDto>> GetProductComments(int productId);
 
 	}
 }
