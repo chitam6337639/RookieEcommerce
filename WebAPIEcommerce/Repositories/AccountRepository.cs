@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StandardLibrary.Account;
 using System;
@@ -77,5 +78,17 @@ namespace WebAPIEcommerce.Repositories
                 Token = _tokenService.CreateToken(user)
             };
         }
-    }
+
+		public async Task LogoutAsync()
+		{
+			try
+			{
+				await _signInManager.SignOutAsync();
+			}
+			catch (Exception ex)
+			{
+				throw new Exception("Logout failed: " + ex.Message);
+			}
+		}
+	}
 }
