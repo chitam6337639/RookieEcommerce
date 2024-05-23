@@ -1,3 +1,4 @@
+using WebMVCEcommerce.Services.Authentication;
 using WebMVCEcommerce.Services.Category;
 using WebMVCEcommerce.Services.Product;
 
@@ -8,6 +9,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient<IProductApiClient, ProductApiClient>();
 builder.Services.AddHttpClient<ICategoryApiClient, CategoryApiClient>();
+builder.Services.AddHttpClient<IAuthenticatonApiClient, AuthenticationApiClient>();
 
 var app = builder.Build();
 
