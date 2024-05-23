@@ -59,10 +59,28 @@
 							Login
 						</a>
 
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							Logout
-						</a>
+						  @* <form asp-controller="Authentication" asp-action="Logout" method="post">
+                        <button type="submit" class="flex-c-m trans-04 p-lr-25">
+                            Logout
+                        </button>
 
+						</form>  *@
+
+						<form asp-controller="Authentication" asp-action="Logout" method="post">
+							<button type="submit" class="flex-c-m trans-04 p-lr-25" style="font-family: Poppins-Regular;
+																														  font-size: 12px;
+																														  line-height: 1.8;
+
+																														  height: 100%;
+																														  color: #b2b2b2;
+																														  border-right: 1px solid rgba(255,255,255,0.3);">
+								Logout
+							</button>
+						</form>
+
+						@* <a asp-controller="Authentication" asp-action="Logout" method="post" class="flex-c-m trans-04 p-lr-25">
+							Logout
+						</a> *@
 						<a href="#" class="flex-c-m trans-04 p-lr-25">
 							EN
 						</a>

@@ -7,5 +7,6 @@ namespace WebMVCEcommerce.Services.Authentication
     {
         Task<string> RegisterAsync(RegisterDto registerDto);
         Task<string> LoginAsync(LoginDto loginDto);
-    }
+		Task LogoutAsync();
+	}
 }

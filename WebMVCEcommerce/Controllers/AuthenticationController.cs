@@ -59,7 +59,15 @@ namespace WebMVCEcommerce.Controllers
             return RedirectToAction("Index","Home");
         }
 
-        private void SetTokenCookie(string token)
+		[HttpPost]
+		public async Task<IActionResult> Logout()
+		{
+			await _authenticationApiClient.LogoutAsync();
+			Response.Cookies.Delete("jwt"); 
+			return RedirectToAction("Index", "Home");
+		}
+
+		private void SetTokenCookie(string token)
         {
             var cookieOptions = new CookieOptions
             {

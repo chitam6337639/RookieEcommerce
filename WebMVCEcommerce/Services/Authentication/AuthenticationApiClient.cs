@@ -34,5 +34,9 @@ namespace WebMVCEcommerce.Services.Authentication
             }
             return null;
         }
-    }
+		public async Task LogoutAsync()
+		{
+            await _httpClient.PostAsync("/api/account/logout",null);
+		}
+	}
 }
