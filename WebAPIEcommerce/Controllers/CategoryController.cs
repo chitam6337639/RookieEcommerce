@@ -21,15 +21,20 @@ namespace WebAPIEcommerce.Controllers
 
 		}
 
-		[HttpGet("all")]
-        public async Task<IActionResult> GetAllCategories()
-        {
-            var categories = await _categoryRepository.GetAllCategoriesAsync();
-            var filteredCategories = categories.Where(c => c.SubCategories.Any()).ToList();
-            return Ok(filteredCategories);
-        }
 
-        [HttpPost("create")]
+		[HttpGet("all")]
+		public async Task<IActionResult> GetAllCategories()
+		{
+			var categories = await _categoryRepository.GetAllCategoriesAsync();
+			var filteredCategories = categories.Where(c => c.ParentId == null).ToList(); 
+			var mappedCategories = _categoryRepository.MapCategoriesToDTO(filteredCategories);
+			return Ok(mappedCategories);
+		}
+
+
+
+
+		[HttpPost("create")]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto categoryDto)
         {
             if (categoryDto == null)

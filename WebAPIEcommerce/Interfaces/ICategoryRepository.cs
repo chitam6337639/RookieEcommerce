@@ -5,8 +5,9 @@ namespace WebAPIEcommerce.Interfaces
 {
     public interface ICategoryRepository
     {
-        Task<List<CategoryDto>> GetAllCategoriesAsync();
-        Task<CategoryDto> CreateCategory(CreateCategoryDto createCategoryDto);
+        Task<List<Category>> GetAllCategoriesAsync();
+		List<CategoryDto> MapCategoriesToDTO(List<Category> categories);
+		Task<CategoryDto> CreateCategory(CreateCategoryDto createCategoryDto);
         Task<CategoryDto> UpdateCategory(int categoryId, CreateCategoryDto createCategoryDto);
         Task<bool> DeleteCategory(int categoryId);
 		Task<CategoryDetailDto> GetCategoryDetailAsync(int categoryId);

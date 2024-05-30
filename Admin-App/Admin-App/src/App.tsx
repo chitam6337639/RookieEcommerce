@@ -17,6 +17,7 @@ import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import TableProduct from './pages/Table/TableCategory';
 import TableCategory from './pages/Table/TableCategory';
+import FormCategory from './pages/Form/FormCategory';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -77,6 +78,15 @@ function App() {
             <>
               <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <FormLayout />
+            </>
+          }
+        />
+        <Route
+          path="/forms/form-category"
+          element={
+            <>
+              <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <FormCategory />
             </>
           }
         />

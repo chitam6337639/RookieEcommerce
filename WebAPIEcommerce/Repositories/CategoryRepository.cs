@@ -14,23 +14,39 @@ namespace WebAPIEcommerce.Repositories
         {
             _context = context;
         }
+		public async Task<List<Category>> GetAllCategoriesAsync()
+		{
+			var categories = await _context.Categories.Include(c => c.SubCategories).ToListAsync();
+			return categories;
+		}
 
-        public async Task<List<CategoryDto>> GetAllCategoriesAsync()
-        {
-            var categories = await _context.Categories.Include(c => c.SubCategories).ToListAsync();
-            return MapCategoriesToDTO(categories);
-        }
+		public List<CategoryDto> MapCategoriesToDTO(List<Category> categories)
+		{
+			return categories.Select(category => new CategoryDto
+			{
+				CategoryId = category.CategoryId,
+				CategoryName = category.CategoryName,
+				SubCategories = MapCategoriesToDTO(category.SubCategories)
+			}).ToList();
+		}
 
-        private List<CategoryDto> MapCategoriesToDTO(List<Category> categories)
-        {
-            return categories.Select(category => new CategoryDto
-            {
-                CategoryId = category.CategoryId,
-                CategoryName = category.CategoryName,
-                SubCategories = MapCategoriesToDTO(category.SubCategories)
-            }).ToList();
-        }
-        public async Task<CategoryDto> CreateCategory(CreateCategoryDto createCategoryDto)
+		//public async Task<List<Category>> GetAllCategoriesAsync()
+		//{
+		//    var categories = await _context.Categories.Include(c => c.SubCategories).ToListAsync();
+		//    return categories;
+		//}
+
+		//private List<CategoryDto> MapCategoriesToDTO(List<Category> categories)
+		//{
+		//    return categories.Select(category => new CategoryDto
+		//    {
+		//        CategoryId = category.CategoryId,
+		//        CategoryName = category.CategoryName,
+		//        SubCategories = MapCategoriesToDTO(categories)
+		//    }).ToList();
+		//}
+
+		public async Task<CategoryDto> CreateCategory(CreateCategoryDto createCategoryDto)
         {
             var category = new Category
             {
