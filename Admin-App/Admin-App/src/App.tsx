@@ -18,6 +18,7 @@ import Buttons from './pages/UiElements/Buttons';
 import TableProduct from './pages/Table/TableCategory';
 import TableCategory from './pages/Table/TableCategory';
 import FormCategory from './pages/Form/FormCategory';
+import TableCategoryDetail from './pages/Table/TableCategoryDetail';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -42,6 +43,15 @@ function App() {
             <>
               <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <TableCategory />
+            </>
+          }
+        />
+        <Route
+          path="/table-category-detail/:categoryId"
+          element={
+            <>
+              <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <TableCategoryDetail />
             </>
           }
         />
@@ -90,6 +100,7 @@ function App() {
             </>
           }
         />
+        
         <Route
           path="/tables"
           element={

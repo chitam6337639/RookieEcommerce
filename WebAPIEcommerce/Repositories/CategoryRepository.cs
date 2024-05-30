@@ -27,25 +27,11 @@ namespace WebAPIEcommerce.Repositories
 				CategoryId = category.CategoryId,
 				CategoryName = category.CategoryName,
                 CategoryDescription = category.CategoryDescription,
+                ParentId = category.ParentId,
 				SubCategories = MapCategoriesToDTO(category.SubCategories)
 			}).ToList();
 		}
 
-		//public async Task<List<Category>> GetAllCategoriesAsync()
-		//{
-		//    var categories = await _context.Categories.Include(c => c.SubCategories).ToListAsync();
-		//    return categories;
-		//}
-
-		//private List<CategoryDto> MapCategoriesToDTO(List<Category> categories)
-		//{
-		//    return categories.Select(category => new CategoryDto
-		//    {
-		//        CategoryId = category.CategoryId,
-		//        CategoryName = category.CategoryName,
-		//        SubCategories = MapCategoriesToDTO(categories)
-		//    }).ToList();
-		//}
 
 		public async Task<CategoryDto> CreateCategory(CreateCategoryDto createCategoryDto)
         {
@@ -126,7 +112,33 @@ namespace WebAPIEcommerce.Repositories
                 }).ToList()
             };
         }
+		public async Task<CategoryWithSubCategoriesDto> GetCategoryWithSubCategoriesAsync(int categoryId)
+		{
+			var category = await _context.Categories
+										  .Include(c => c.SubCategories)
+										  .ThenInclude(sc => sc.Products) // Include products of subcategories
+										  .FirstOrDefaultAsync(c => c.CategoryId == categoryId);
+			if (category == null)
+			{
+				return null;
+			}
 
+			return new CategoryWithSubCategoriesDto
+			{
+				CategoryId = category.CategoryId,
+				CategoryName = category.CategoryName,
+				CategoryDescription = category.CategoryDescription,
+                ParentId = category.ParentId,
+				SubCategories = MapCategoriesToDTO(category.SubCategories),
+				Products = category.Products.Select(p => new ProductDto
+				{
+					ProductId = p.ProductId,
+					ProductName = p.ProductName,
+					ProductDescription = p.ProductDescription,
+					Price = p.Price
+				}).ToList()
+			};
+		}
 	}
-    
+
 }

@@ -95,5 +95,17 @@ namespace WebAPIEcommerce.Controllers
 			}
 			return Ok(categoryDetail);
 		}
+
+		[HttpGet("{id}/subcategories")]
+		public async Task<IActionResult> GetSubCategories(int id)
+		{
+			var subCategories = await _categoryRepository.GetCategoryWithSubCategoriesAsync(id);
+			if (subCategories == null)
+			{
+				return NotFound();
+			}
+			return Ok(subCategories.SubCategories);
+		}
+
 	}
 }
