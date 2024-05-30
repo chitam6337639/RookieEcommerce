@@ -45,32 +45,36 @@ namespace WebAPIEcommerce.Controllers
             return CreatedAtAction(nameof(GetAllCategories), new { id = createdCategory.CategoryId }, createdCategory);
         }
 
-        [HttpPut("update/{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, [FromBody] CreateCategoryDto createCategoryDto)
-        {
-            if (createCategoryDto == null || id != createCategoryDto.CategoryId)
-            {
-                return BadRequest();
-            }
+		[HttpPut("update/{id}")]
+		public async Task<IActionResult> UpdateCategory(int id, [FromBody] UpdateCategoryDto updateCategoryDto)
+		{
+			if (updateCategoryDto == null)
+			{
+				return BadRequest();
+			}
 
-            var existingCategory = await _categoryRepository.GetAllCategoriesAsync();
-            var categoryToUpdate = existingCategory.FirstOrDefault(c => c.CategoryId == id);
-            if (categoryToUpdate == null)
-            {
-                return NotFound();
-            }
-            categoryToUpdate.CategoryName = createCategoryDto.CategoryName;
-            categoryToUpdate.ParentId = createCategoryDto.ParentId;
+			var categoryToUpdate = await _categoryRepository.GetAllCategoriesAsync();
+			var existingCategory = categoryToUpdate.FirstOrDefault(c => c.CategoryId == id);
+			if (existingCategory == null)
+			{
+				return NotFound();
+			}
 
-            var updatedCategory = await _categoryRepository.UpdateCategory(id, createCategoryDto);
-            if (updatedCategory == null)
-            {
-                return NotFound();
-            }
-            return Ok(updatedCategory);
-        }
+			existingCategory.CategoryName = updateCategoryDto.CategoryName;
+			existingCategory.CategoryDescription = updateCategoryDto.CategoryDescription;
 
-        [HttpDelete("delete/{id}")]
+			var updatedCategory = await _categoryRepository.UpdateCategory(id, updateCategoryDto);
+			if (updatedCategory == null)
+			{
+				return NotFound();
+			}
+
+			return Ok(updatedCategory);
+		}
+
+
+
+		[HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             var result = await _categoryRepository.DeleteCategory(id);

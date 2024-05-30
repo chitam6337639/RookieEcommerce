@@ -6,7 +6,8 @@ namespace WebAPIEcommerce.Models.Entities
     {
         public int CategoryId { get; set; }
         public string? CategoryName { get; set; }
-        public int? ParentId { get; set; }
+		public string? CategoryDescription { get; set; }
+		public int? ParentId { get; set; }
         [NotMapped]
         public Category? Parent { get; set; }
         public List<Category> SubCategories { get; set; } = new(); 

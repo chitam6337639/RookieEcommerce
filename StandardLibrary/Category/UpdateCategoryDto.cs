@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace StandardLibrary.Category
 {
-    public class CreateCategoryDto
-    {
-        //public int CategoryId { get; set; }
-        public string? CategoryName { get; set; }
+	public class UpdateCategoryDto
+	{
+		public string? CategoryName { get; set; }
 		public string? CategoryDescription { get; set; }
-		public int? ParentId { get; set; }
-        
-    }
+	}
 }

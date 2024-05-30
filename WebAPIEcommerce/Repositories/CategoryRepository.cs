@@ -26,6 +26,7 @@ namespace WebAPIEcommerce.Repositories
 			{
 				CategoryId = category.CategoryId,
 				CategoryName = category.CategoryName,
+                CategoryDescription = category.CategoryDescription,
 				SubCategories = MapCategoriesToDTO(category.SubCategories)
 			}).ToList();
 		}
@@ -51,6 +52,7 @@ namespace WebAPIEcommerce.Repositories
             var category = new Category
             {
                 CategoryName = createCategoryDto.CategoryName,
+                CategoryDescription = createCategoryDto.CategoryDescription,
                 ParentId = createCategoryDto.ParentId
             };
             _context.Categories.Add(category);
@@ -60,19 +62,21 @@ namespace WebAPIEcommerce.Repositories
             {
                 CategoryId = category.CategoryId,
                 CategoryName = category.CategoryName,
+                CategoryDescription = category.CategoryDescription,
                 ParentId = category.ParentId
             };
         }
 
-        public async Task<CategoryDto> UpdateCategory(int categoryId, CreateCategoryDto createCategoryDto)
+        public async Task<CategoryDto> UpdateCategory(int categoryId, UpdateCategoryDto updateCategoryDto)
         {
             var category = await _context.Categories.FindAsync(categoryId);
             if (category == null)
             {
                 return null;
             }
-            category.CategoryName = createCategoryDto.CategoryName;
-            category.ParentId = createCategoryDto.ParentId;
+            category.CategoryName = updateCategoryDto.CategoryName;
+            category.CategoryDescription = updateCategoryDto.CategoryDescription;
+            
 
             _context.Categories.Update(category);
             await _context.SaveChangesAsync();
@@ -81,6 +85,7 @@ namespace WebAPIEcommerce.Repositories
             {
                 CategoryId = category.CategoryId,
                 CategoryName = category.CategoryName,
+                CategoryDescription = category.CategoryDescription,
                 ParentId = category.ParentId
             };
         }
@@ -111,6 +116,7 @@ namespace WebAPIEcommerce.Repositories
             {
                 CategoryId = category.CategoryId,
                 CategoryName = category.CategoryName,
+                CategoryDescription = category.CategoryDescription,
                 Products = category.Products.Select(p => new ProductDto
                 {
                     ProductId = p.ProductId,
