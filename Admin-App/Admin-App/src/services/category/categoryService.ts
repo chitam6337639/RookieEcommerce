@@ -46,3 +46,12 @@ export const updateCategory = async (id: number, updateCategoryDto: { categoryNa
     throw error;
   }
 };
+
+export const deleteCategory = async (id: number): Promise<void> => {
+  try {
+    await axios.delete(`${API_BASE_URL}/category/delete/${id}`);
+  } catch (error) {
+    console.error('Error deleting category: ', error);
+    throw error;
+  }
+};

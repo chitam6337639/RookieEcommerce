@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '../../layout/DefaultLayout';
 import { Category } from '../../models/Category';
-import { getAllCategory } from '../../services/category/categoryService';
+import { getAllCategory, deleteCategory } from '../../services/category/categoryService';
 
 const TableCategory = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -20,6 +20,15 @@ const TableCategory = () => {
 
     fetchCategories();
   }, []);
+
+  const handleDelete = async (categoryId) => {
+    try {
+      await deleteCategory(categoryId);
+      setCategories(categories.filter(category => category.categoryId !== categoryId));
+    } catch (error) {
+      console.error('Error deleting category: ', error);
+    }
+  };
 
   return (
     <DefaultLayout>
@@ -128,7 +137,10 @@ const TableCategory = () => {
                           </defs>
                         </svg>
                       </Link>
-                      <button className="hover:text-primary">
+                      <button
+                        onClick={() => handleDelete(category.categoryId)}
+                        className="hover:text-primary"
+                      >
                         <svg
                           className="fill-current"
                           width="18"

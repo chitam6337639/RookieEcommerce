@@ -76,17 +76,17 @@ namespace WebAPIEcommerce.Repositories
             };
         }
 
-        public async Task<bool> DeleteCategory(int categoryId)
-        {
-            var category = await _context.Categories.FindAsync(categoryId);
-            if (category == null)
-            {
-                return false;
-            }
-            _context.Categories.Remove(category);
-            await _context.SaveChangesAsync();
-            return true;
-        }
+        //public async Task<bool> DeleteCategory(int categoryId)
+        //{
+        //    var category = await _context.Categories.FindAsync(categoryId);
+        //    if (category == null)
+        //    {
+        //        return false;
+        //    }
+        //    _context.Categories.Remove(category);
+        //    await _context.SaveChangesAsync();
+        //    return true;
+        //}
 
         public async Task<CategoryDetailDto> GetCategoryDetailAsync(int categoryId)
         {
@@ -139,6 +139,35 @@ namespace WebAPIEcommerce.Repositories
 				}).ToList()
 			};
 		}
+
+		public async Task<bool> DeleteCategory(int categoryId)
+		{
+			var category = await _context.Categories
+										 .Include(c => c.SubCategories)
+										 .FirstOrDefaultAsync(c => c.CategoryId == categoryId);
+
+			if (category == null)
+			{
+				return false;
+			}
+
+			// Recursively delete subcategories
+			DeleteCategoryRecursive(category);
+
+			await _context.SaveChangesAsync();
+			return true;
+		}
+
+		private void DeleteCategoryRecursive(Category category)
+		{
+			foreach (var subCategory in category.SubCategories.ToList())
+			{
+				DeleteCategoryRecursive(subCategory);
+			}
+			_context.Categories.Remove(category);
+		}
+
+
 	}
 
 }

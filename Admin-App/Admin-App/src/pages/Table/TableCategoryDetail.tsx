@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Category } from '../../models/Category';
-import { getSubcategories } from '../../services/category/categoryService';
+import { getSubcategories, deleteCategory } from '../../services/category/categoryService';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '../../layout/DefaultLayout';
 
@@ -25,7 +25,16 @@ const TableCategoryDetail = () => {
         console.log("dsaf")
 
         fetchCategories();
-    }, [categoryId]); // Đảm bảo useEffect chạy lại khi categoryId thay đổi
+    }, [categoryId]);// Đảm bảo useEffect chạy lại khi categoryId thay đổi
+
+    const handleDelete = async (categoryId: number) => {
+        try {
+            await deleteCategory(categoryId);
+            setSubCategory(prevSubCategories => prevSubCategories.filter(category => category.categoryId !== categoryId));
+        } catch (error) {
+            console.error('Error deleting category: ', error);
+        }
+    };
 
     return (
         <DefaultLayout>
@@ -103,7 +112,7 @@ const TableCategoryDetail = () => {
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <div className="flex items-center space-x-3.5">
-                                            <button className="hover:text-primary">
+                                            {/* <button className="hover:text-primary">
                                                 <svg
                                                     className="fill-current"
                                                     width="18"
@@ -122,7 +131,7 @@ const TableCategoryDetail = () => {
                                                     />
                                                 </svg>
 
-                                            </button>
+                                            </button> */}
                                             <Link to={`/forms/form-category?categoryId=${category.categoryId}`} state={category} className="hover:text-primary">
                                                 <svg
                                                     className="fill-current"
@@ -153,7 +162,7 @@ const TableCategoryDetail = () => {
                                                     </defs>
                                                 </svg>
                                             </Link>
-                                            <button className="hover:text-primary">
+                                            <button onClick={() => handleDelete(category.categoryId)} className="hover:text-primary">
                                                 <svg
                                                     className="fill-current"
                                                     width="18"

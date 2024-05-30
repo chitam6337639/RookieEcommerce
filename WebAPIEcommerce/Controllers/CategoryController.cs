@@ -74,16 +74,16 @@ namespace WebAPIEcommerce.Controllers
 
 
 
-		[HttpDelete("delete/{id}")]
-        public async Task<IActionResult> DeleteCategory(int id)
-        {
-            var result = await _categoryRepository.DeleteCategory(id);
-            if (!result)
-            {
-                return NotFound();
-            }
-            return NoContent();
-        }
+		//[HttpDelete("delete/{id}")]
+  //      public async Task<IActionResult> DeleteCategory(int id)
+  //      {
+  //          var result = await _categoryRepository.DeleteCategory(id);
+  //          if (!result)
+  //          {
+  //              return NotFound();
+  //          }
+  //          return NoContent();
+  //      }
 
 		[HttpGet("{id}/details")]
 		public async Task<IActionResult> GetCategoryDetail(int id)
@@ -106,6 +106,18 @@ namespace WebAPIEcommerce.Controllers
 			}
 			return Ok(subCategories.SubCategories);
 		}
+
+		[HttpDelete("delete/{id}")]
+		public async Task<IActionResult> DeleteCategory(int id)
+		{
+			var result = await _categoryRepository.DeleteCategory(id);
+			if (!result)
+			{
+				return NotFound();
+			}
+			return NoContent();
+		}
+
 
 	}
 }
