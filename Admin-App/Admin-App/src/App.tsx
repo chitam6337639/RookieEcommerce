@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
 import SignIn from './pages/Authentication/SignIn';
@@ -15,10 +14,11 @@ import Settings from './pages/Settings';
 import Tables from './pages/Tables';
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
-import TableProduct from './pages/Table/TableCategory';
+import TableProduct from './pages/Table/TableProduct';
 import TableCategory from './pages/Table/TableCategory';
 import FormCategory from './pages/Form/FormCategory';
 import TableCategoryDetail from './pages/Table/TableCategoryDetail';
+import FormProduct from './pages/Form/FormProduct';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -97,6 +97,15 @@ function App() {
             <>
               <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <FormCategory />
+            </>
+          }
+        />
+        <Route
+          path="/forms/form-product"
+          element={
+            <>
+              <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <FormProduct />
             </>
           }
         />

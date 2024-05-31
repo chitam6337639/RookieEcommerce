@@ -17,8 +17,6 @@ namespace WebAPIEcommerce.Controllers
 		public CategoryController(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
-			
-
 		}
 
 

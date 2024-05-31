@@ -1,8 +1,6 @@
-export interface Product {
-    productId: number;
+export interface CreateProduct {
     productName: string;
     productDescription: string;
     price: number;
     imageURL: string;
-    categoryId: number;
 }

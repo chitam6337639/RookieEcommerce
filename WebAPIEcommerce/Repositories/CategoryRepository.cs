@@ -151,7 +151,6 @@ namespace WebAPIEcommerce.Repositories
 				return false;
 			}
 
-			// Recursively delete subcategories
 			DeleteCategoryRecursive(category);
 
 			await _context.SaveChangesAsync();

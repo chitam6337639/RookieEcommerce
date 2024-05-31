@@ -13,16 +13,16 @@ namespace WebAPIEcommerce.Repositories
         {
             _context = context;
         }
-        public async Task<ProductDto> CreateProduct(ProductDto productDto)
+        public async Task<ProductDto> CreateProduct(CreateProductDto createProductDto)
         {
             
             var product = new Product
             {
-                ProductName = productDto.ProductName,
-                ProductDescription = productDto.ProductDescription,
-                Price = productDto.Price,
-                ImageURL = productDto.ImageURL,
-                CategoryId = productDto.CategoryId,
+                ProductName = createProductDto.ProductName,
+                ProductDescription = createProductDto.ProductDescription,
+                Price = createProductDto.Price,
+                ImageURL = createProductDto.ImageURL,
+                CategoryId = createProductDto.CategoryId,
                 
             };
 
@@ -31,6 +31,7 @@ namespace WebAPIEcommerce.Repositories
 
             return new ProductDto
             {
+                ProductId = product.ProductId,
                 ProductName = product.ProductName,
                 ProductDescription = product.ProductDescription,
                 Price = product.Price,
@@ -79,7 +80,7 @@ namespace WebAPIEcommerce.Repositories
         }
 
 
-        public async Task<bool> UpdateProduct(int id, ProductDto productDto)
+        public async Task<bool> UpdateProduct(int id, CreateProductDto createproductDto)
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null)
@@ -87,11 +88,11 @@ namespace WebAPIEcommerce.Repositories
                 return false;
             }
 
-            product.ProductName = productDto.ProductName;
-            product.ProductDescription = productDto.ProductDescription;
-            product.Price = productDto.Price;
-            product.ImageURL = productDto.ImageURL;
-            product.CategoryId = productDto.CategoryId;
+            product.ProductName = createproductDto.ProductName;
+            product.ProductDescription = createproductDto.ProductDescription;
+            product.Price = createproductDto.Price;
+            product.ImageURL = createproductDto.ImageURL;
+            product.CategoryId = createproductDto.CategoryId;
 
             _context.Products.Update(product);
             await _context.SaveChangesAsync();

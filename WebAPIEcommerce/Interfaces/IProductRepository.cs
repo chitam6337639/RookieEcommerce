@@ -5,10 +5,10 @@ namespace WebAPIEcommerce.Interfaces
 {
     public interface IProductRepository
     {
-        Task<ProductDto> CreateProduct(ProductDto productDto);
+        Task<ProductDto> CreateProduct(CreateProductDto createProductDto);
         Task<List<ProductDto>> GetProducts();
         Task<ProductDto> GetProductId(int id);
-        Task<bool> UpdateProduct(int id,ProductDto productDto);
+        Task<bool> UpdateProduct(int id, CreateProductDto createProductDto);
         Task<bool> DeleteProduct(int id);
     }
 }

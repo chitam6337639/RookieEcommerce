@@ -21,7 +21,7 @@ const TableCategory = () => {
     fetchCategories();
   }, []);
 
-  const handleDelete = async (categoryId) => {
+  const handleDelete = async (categoryId : any) => {
     try {
       await deleteCategory(categoryId);
       setCategories(categories.filter(category => category.categoryId !== categoryId));

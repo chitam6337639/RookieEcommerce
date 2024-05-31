@@ -15,7 +15,7 @@ export const getAllCategory = async (): Promise<Category[]> => {
 
 
 
-export const createCategory = async (categoryDto: { categoryId: number; categoryName: string; parentId: number | null }): Promise<Category> => {
+export const createCategory = async (categoryDto: { categoryName: string; parentId: number | null }): Promise<Category> => {
   try {
     const response = await axios.post<Category>(`${API_BASE_URL}/category/create`, categoryDto);
     return response.data;

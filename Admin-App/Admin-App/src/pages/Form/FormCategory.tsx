@@ -14,8 +14,8 @@ interface FormValues {
 
 const FormCategory: React.FC = () => {
   const location = useLocation();
-  const categoryFromState = location.state || [];
-  console.log("Get from state", categoryFromState)
+  const categoryFromState= location.state;
+  // console.log("Get from state", categoryFromState)
 
   const { register, handleSubmit, reset, formState: { errors }, setValue, watch } = useForm<FormValues>();
   const [categories, setCategories] = useState<Category[]>([]);
@@ -57,15 +57,16 @@ const FormCategory: React.FC = () => {
   }, [categories]);
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    
     const categoryDto = {
-      categoryId: categoryFromState.categoryId || 0,
       categoryName: data.categoryName,
       categoryDescription: data.categoryDescription,
       parentId: data.selectedOption ? parseInt(data.selectedOption) : null,
     };
-
+    console.log(categoryDto);
+    
     try {
-      if (categoryFromState.categoryId) {
+      if (categoryFromState) {
         await updateCategory(categoryFromState.categoryId, { categoryName: data.categoryName, categoryDescription: data.categoryDescription });
         console.log('Category updated successfully');
       } else {
@@ -78,6 +79,7 @@ const FormCategory: React.FC = () => {
     } catch (error) {
       console.error('Error:', error);
     }
+    
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -137,7 +139,7 @@ const FormCategory: React.FC = () => {
                         <option selected key={selectedParentCategory.categoryId} value={selectedParentCategory.categoryId} className="text-body dark:text-bodydark">{selectedParentCategory.categoryName}</option>
                       ) : (
                         <>
-                          <option value="" disabled className="text-body dark:text-bodydark">Select your type</option>
+                          <option value="null" className="text-body dark:text-bodydark">Select your type</option>
 
                           {categories.map(category => (
 
@@ -149,6 +151,7 @@ const FormCategory: React.FC = () => {
 
 
                     </select>
+
                     <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
                       <svg
                         className="fill-current"
