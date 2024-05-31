@@ -23,3 +23,12 @@ export async function createProduct(createProduct: CreateProduct): Promise<Produ
         throw error;
     }
 }
+
+export async function updateProduct(id: number, createProduct: CreateProduct): Promise<void> {
+    try {
+        await axios.put(`${API_BASE_URL}/product/${id}`, createProduct);
+    } catch (error) {
+        console.error('Error updating product:', error);
+        throw error;
+    }
+}

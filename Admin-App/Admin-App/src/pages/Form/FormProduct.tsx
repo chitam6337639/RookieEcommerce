@@ -3,10 +3,11 @@ import { Link, useLocation } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '../../layout/DefaultLayout';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { createProduct } from '../../services/product/productService';
+import { createProduct, updateProduct } from '../../services/product/productService';
 import { getAllCategory } from '../../services/category/categoryService';
 import { Category } from '../../models/Category';
 import { Product } from '../../models/Product';
+import { CreateProduct } from '../../models/CreateProduct';
 
 interface FormValues {
     productName: string;
@@ -25,7 +26,7 @@ const FormProduct: React.FC = () => {
     const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm<FormValues>();
     const [categories, setCategories] = useState<Category[]>([]);
     const [selectedParentCategory, setSelectedParentCategory] = useState<Category | undefined>(undefined);
-    const [selectedSubCategory, setSelectedSubCategory] = useState<number | undefined>(undefined);
+    const [selectedSubCategory, setSelectedSubCategory] = useState<number>();
     // const selectedCategoryId = selectedParentCategory?.categoryId || '';
 
     const queryParams = new URLSearchParams(location.search);
@@ -42,15 +43,14 @@ const FormProduct: React.FC = () => {
 
     useEffect(() => {
         if (productFromState) {
-          reset({
-            productName: productFromState.productName || '',
-            productDescription: productFromState.productDescription || '',
-            price: productFromState.price,
-            imageURL: productFromState.imageURL || '',
-          });
-          
-          if(categories.length>0)
-            {
+            reset({
+                productName: productFromState.productName || '',
+                productDescription: productFromState.productDescription || '',
+                price: productFromState.price,
+                imageURL: productFromState.imageURL || '',
+            });
+
+            if (categories.length > 0) {
                 var categoryOfProduct = categories.find(c => c.subCategories.some(sc => sc.categoryId == productFromState.categoryId))
                 setSelectedParentCategory(categoryOfProduct);
                 var subCategoryOfProduct = categoryOfProduct?.subCategories.find(sc => sc.categoryId == productFromState.categoryId);
@@ -58,14 +58,14 @@ const FormProduct: React.FC = () => {
                 console.log(categoryOfProduct)
             }
         }
-      }, [productFromState, reset, categories]);
+    }, [productFromState, reset, categories]);
 
     useEffect(() => {
         debugger
         if (categories.length == 0) {
             fetchCategories();
         }
-        
+
         if (parentId && categories.length > 0) {
             var parentCategory = categories.find(c => c.categoryId == parseInt(parentId));
             setSelectedParentCategory(parentCategory);
@@ -75,23 +75,40 @@ const FormProduct: React.FC = () => {
 
     const onSubmit: SubmitHandler<FormValues> = async (data) => {
 
-        const productDto = {
+        const productDto : CreateProduct = {
             productName: data.productName,
             productDescription: data.productDescription,
             price: data.price,
             imageURL: data.imageURL,
-            categoryId: selectedSubCategory,
+            categoryId: selectedSubCategory!,
             // categoryName: data.categoryName,
             // categoryDescription: data.categoryDescription,
             // parentId: data.selectedOption ? parseInt(data.selectedOption) : null,
         };
         console.log(productDto);
 
+        // try {
+        //     if (productFromState) {
+        //         await updateProduct(productFromState.productId, { productName: data.productName, productDescription: data.productDescription, price: data.price, imageURL: data.imageURL });
+        //         console.log('Product updated successfully');
+        //     } else {
+        //         const response = await createProduct(productDto);
+        //         console.log(response);
+        //         console.log('Category created successfully');
+        //         // history.push('/path/to/redirect'); // Điều hướng sau khi tạo hoặc chỉnh sửa thành công
+        //     }
+
+        // } catch (error) {
+        //     console.error('Error:', error);
+        // }
         try {
-            const response = await createProduct(productDto);
-            console.log(response);
-            console.log('Category created successfully');
-            // history.push('/path/to/redirect'); // Điều hướng sau khi tạo hoặc chỉnh sửa thành công
+            if (productFromState) {
+                await updateProduct(productFromState.productId, productDto);
+                console.log('Product updated successfully');
+            } else {
+                const response = await createProduct(productDto);
+                console.log('Product created successfully', response);
+            }
         } catch (error) {
             console.error('Error:', error);
         }

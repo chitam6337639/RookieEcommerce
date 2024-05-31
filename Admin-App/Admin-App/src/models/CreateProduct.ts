@@ -3,4 +3,5 @@ export interface CreateProduct {
     productDescription: string;
     price: number;
     imageURL: string;
+    categoryId: number
 }
