@@ -32,3 +32,12 @@ export async function updateProduct(id: number, createProduct: CreateProduct): P
         throw error;
     }
 }
+
+export async function deleteProduct(id: number): Promise<void> {
+    try {
+        await axios.delete(`${API_BASE_URL}/product/${id}`);
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        throw error;
+    }
+}

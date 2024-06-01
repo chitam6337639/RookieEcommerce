@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '../../layout/DefaultLayout';
 import { Product } from '../../models/Product';
-import { getProducts } from '../../services/product/productService';
+import { deleteProduct, getProducts } from '../../services/product/productService';
 
 const TableProduct = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -20,6 +20,15 @@ const TableProduct = () => {
 
     fetchProducts();
   }, []);
+
+  const handleDelete = async (productId: number) => {
+    try {
+      await deleteProduct(productId);
+      setProducts(products.filter(product => product.productId !== productId));
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
+  };
 
   return (
     <DefaultLayout>
@@ -118,7 +127,7 @@ const TableProduct = () => {
                         </svg>
                       </Link>
                       <button
-                        // onClick={() => handleDelete(category.categoryId)}
+                        onClick={() => handleDelete(product.productId)}
                         className="hover:text-primary"
                       >
                         <svg
