@@ -4,21 +4,18 @@
     <ul class="main-menu">
         @foreach (var category in Model)
         {
-            if (category.CategoryName == "MEN" || category.CategoryName == "WOMEN")
-            {
-                <li>
-                    <a href="#">@category.CategoryName</a>
-                    @if (category.SubCategories.Any())
-                    {
-                        <ul class="sub-menu">
-                            @foreach (var subCategory in category.SubCategories)
-                            {
-                                <li><a asp-controller="Category" asp-action="CategoryDetail" asp-route-id="@subCategory.CategoryId">@subCategory.CategoryName</a></li>
-                            }
-                        </ul>
-                    }
-                </li>
-            }
+            <li>
+                <a href="#">@category.CategoryName</a>
+                @if (category.SubCategories.Any())
+                {
+                    <ul class="sub-menu">
+                        @foreach (var subCategory in category.SubCategories)
+                        {
+                            <li><a asp-controller="Category" asp-action="CategoryDetail" asp-route-id="@subCategory.CategoryId">@subCategory.CategoryName</a></li>
+                        }
+                    </ul>
+                }
+            </li>
         }
         <li>
             <a href="product.html">Shop</a>
@@ -41,4 +38,3 @@
         </li>
     </ul>
 </div>
-
