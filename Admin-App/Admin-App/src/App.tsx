@@ -19,6 +19,7 @@ import TableCategory from './pages/Table/TableCategory';
 import FormCategory from './pages/Form/FormCategory';
 import TableCategoryDetail from './pages/Table/TableCategoryDetail';
 import FormProduct from './pages/Form/FormProduct';
+import TableUser from './pages/Table/TableUser';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -125,6 +126,15 @@ function App() {
             <>
               <PageTitle title="Tables Product| TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <TableProduct />
+            </>
+          }
+        />
+        <Route
+          path="/tables/tableUser"
+          element={
+            <>
+              <PageTitle title="Tables Product| TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <TableUser />
             </>
           }
         />
