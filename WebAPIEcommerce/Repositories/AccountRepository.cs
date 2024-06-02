@@ -90,5 +90,19 @@ namespace WebAPIEcommerce.Repositories
 				throw new Exception("Logout failed: " + ex.Message);
 			}
 		}
+
+		public async Task<List<UserInfoDto>> GetAllUsersAsync()
+		{
+			var users = await _userManager.Users.ToListAsync();
+
+			return users.Select(user => new UserInfoDto
+			{
+				Id = user.Id,
+				UserName = user.UserName,
+				Email = user.Email,
+				PhoneNumber = user.PhoneNumber,
+				Status = user.LockoutEnd == null || user.LockoutEnd <= DateTimeOffset.Now ? "Active" : "Locked"
+			}).ToList();
+		}
 	}
 }

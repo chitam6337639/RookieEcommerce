@@ -79,6 +79,20 @@ namespace WebAPIEcommerce.Controllers
 			}
 		}
 
+		[HttpGet("allusers")]
+		public async Task<IActionResult> GetAllUsers()
+		{
+			try
+			{
+				var allUsers = await _accountRepository.GetAllUsersAsync();
+				return Ok(allUsers);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, ex.Message);
+			}
+		}
+
 
 	}
 }
