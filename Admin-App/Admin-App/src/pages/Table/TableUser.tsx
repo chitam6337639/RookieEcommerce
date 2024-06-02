@@ -2,8 +2,26 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '../../layout/DefaultLayout';
+import { getAllUsers } from '../../services/account/accountService';
+import { User } from '../../models/User';
 
 const TableUser = () => {
+    const [users, setUsers] = useState<User[]>([]);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const users = await getAllUsers();
+                setUsers(users);
+            } catch (err) {
+                console.error('Error fetching users', err);
+            }
+        };
+
+        fetchUsers();
+    }, []);
+
+
     return (
         <DefaultLayout>
             <Breadcrumb pageName="User" />
@@ -21,48 +39,48 @@ const TableUser = () => {
                                 <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                                     Email
                                 </th>
-                                {/* <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                    Price
+                                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                                    Phone
                                 </th>
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                    ImageURL
+                                    Status
                                 </th>
                                 <th className="py-4 px-4 font-medium text-black dark:text-white">
                                     Actions
-                                </th> */}
+                                </th>
                             </tr>
                         </thead>
-                        {/* <tbody>
-                            {products.map((product) => (
-                                <tr key={product.productId}>
+                        <tbody>
+                            {users.map((user) => (
+                                <tr key={user.id}>
                                     <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                                         <h5 className="font-medium text-black dark:text-white">
-                                            {product.productId}
+                                            {user.id}
                                         </h5>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {product.productName}
+                                            {user.userName}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {product.productDescription}
+                                            {user.email}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {product.price}
+                                            {user.phoneNumber}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {product.imageURL}
+                                            {user.status}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <div className="flex items-center space-x-3.5">
-                                            <Link to={`/forms/form-product?productId=${product.productId}`} state={product} className="hover:text-primary">
+                                            <Link to={``}className="hover:text-primary">
                                                 <svg
                                                     className="fill-current"
                                                     width="18"
@@ -127,7 +145,7 @@ const TableUser = () => {
                                     </td>
                                 </tr>
                             ))}
-                        </tbody> */}
+                        </tbody>
                     </table>
                 </div>
             </div>
