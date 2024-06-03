@@ -76,6 +76,7 @@ const FormCategory: React.FC = () => {
         console.log('Category created successfully');
       }
       // history.push('/path/to/redirect'); // Điều hướng sau khi tạo hoặc chỉnh sửa thành công
+      
     } catch (error) {
       console.error('Error:', error);
     }

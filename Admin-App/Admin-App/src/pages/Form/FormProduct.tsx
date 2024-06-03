@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate} from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '../../layout/DefaultLayout';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -30,11 +30,12 @@ const FormProduct: React.FC = () => {
             position: toast.POSITION.TOP_RIGHT,
         });
         toast.error("Error Notification !", {
-            position: toast.POSITION.TOP_CENTER,
+            position: toast.POSITION.TOP_RIGHT,
         });
     };
 
     const location = useLocation();
+    const navigate = useNavigate();
     const productFromState: Product = location.state;
 
     const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm<FormValues>();
@@ -128,6 +129,7 @@ const FormProduct: React.FC = () => {
                 const response = await createProduct(productDto);
                 console.log('Product created successfully', response);
             }
+            navigate('/tables/tableProduct');
         } catch (error) {
             console.error('Error:', error);
         }
@@ -310,14 +312,14 @@ const FormProduct: React.FC = () => {
                                 </div>
 
                                 <div className="flex justify-end gap-4 mt-6">
-                                    <Link to="/tables/tableProduct">
-                                        <button
-                                            type="submit"
-                                            className="inline-flex items-center justify-center bg-primary py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
-                                        >
-                                            Submit
-                                        </button>
-                                    </Link>
+
+                                    <button
+                                        type="submit"
+                                        className="inline-flex items-center justify-center bg-primary py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
+                                    >
+                                        Submit
+                                    </button>
+
 
                                     <Link
                                         to="/tables/tableProduct"
