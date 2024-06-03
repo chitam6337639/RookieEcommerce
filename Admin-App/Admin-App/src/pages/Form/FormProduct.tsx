@@ -8,6 +8,11 @@ import { getAllCategory } from '../../services/category/categoryService';
 import { Category } from '../../models/Category';
 import { Product } from '../../models/Product';
 import { CreateProduct } from '../../models/CreateProduct';
+import { imageDb } from '../../firebaseImage/config'
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { v4 } from "uuid";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface FormValues {
     productName: string;
@@ -20,10 +25,20 @@ interface FormValues {
 }
 
 const FormProduct: React.FC = () => {
+    const showToastMessage = () => {
+        toast.success("Success Notification !", {
+            position: toast.POSITION.TOP_RIGHT,
+        });
+        toast.error("Error Notification !", {
+            position: toast.POSITION.TOP_CENTER,
+        });
+    };
+
     const location = useLocation();
     const productFromState: Product = location.state;
 
     const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm<FormValues>();
+
     const [categories, setCategories] = useState<Category[]>([]);
     const [selectedParentCategory, setSelectedParentCategory] = useState<Category | undefined>(undefined);
     const [selectedSubCategory, setSelectedSubCategory] = useState<number>();
@@ -31,6 +46,28 @@ const FormProduct: React.FC = () => {
 
     const queryParams = new URLSearchParams(location.search);
     const parentId = queryParams.get("parentId")
+
+    const [img, setImg] = useState<File | null>(null);
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+    const handleClick = async () => {
+        if (img) {
+            const imgRef = ref(imageDb, `files/${v4()}`);
+            try {
+                await uploadBytes(imgRef, img);
+                debugger;
+                const url = await getDownloadURL(imgRef);
+                console.log('Upload successful, URL:', url);
+                setValue('imageURL', url); //Set URL vào hook form
+                setImageUrl(url);
+            } catch (error) {
+                console.error('Error uploading file:', error);
+            }
+        } else {
+            console.error('No file selected');
+        }
+    };
+
 
     const fetchCategories = async () => {
         try {
@@ -49,7 +86,7 @@ const FormProduct: React.FC = () => {
                 price: productFromState.price,
                 imageURL: productFromState.imageURL || '',
             });
-
+            setImageUrl(productFromState.imageURL);
             if (categories.length > 0) {
                 var categoryOfProduct = categories.find(c => c.subCategories.some(sc => sc.categoryId == productFromState.categoryId))
                 setSelectedParentCategory(categoryOfProduct);
@@ -74,34 +111,16 @@ const FormProduct: React.FC = () => {
     }, [categories]);
 
     const onSubmit: SubmitHandler<FormValues> = async (data) => {
-
-        const productDto : CreateProduct = {
-            productName: data.productName,
-            productDescription: data.productDescription,
-            price: data.price,
-            imageURL: data.imageURL,
-            categoryId: selectedSubCategory!,
-            // categoryName: data.categoryName,
-            // categoryDescription: data.categoryDescription,
-            // parentId: data.selectedOption ? parseInt(data.selectedOption) : null,
-        };
-        console.log(productDto);
-
-        // try {
-        //     if (productFromState) {
-        //         await updateProduct(productFromState.productId, { productName: data.productName, productDescription: data.productDescription, price: data.price, imageURL: data.imageURL });
-        //         console.log('Product updated successfully');
-        //     } else {
-        //         const response = await createProduct(productDto);
-        //         console.log(response);
-        //         console.log('Category created successfully');
-        //         // history.push('/path/to/redirect'); // Điều hướng sau khi tạo hoặc chỉnh sửa thành công
-        //     }
-
-        // } catch (error) {
-        //     console.error('Error:', error);
-        // }
         try {
+            const productDto: CreateProduct = {
+                productName: data.productName,
+                productDescription: data.productDescription,
+                price: data.price,
+                imageURL: data.imageURL, // Sử dụng URL từ hook form
+                categoryId: selectedSubCategory!,
+            };
+            console.log(productDto);
+
             if (productFromState) {
                 await updateProduct(productFromState.productId, productDto);
                 console.log('Product updated successfully');
@@ -112,8 +131,9 @@ const FormProduct: React.FC = () => {
         } catch (error) {
             console.error('Error:', error);
         }
-
     };
+
+
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const categoryId = parseInt(e.target.value)
         // setValue('selectedOption', e.target.value);
@@ -129,7 +149,7 @@ const FormProduct: React.FC = () => {
 
     return (
         <DefaultLayout>
-            <Breadcrumb pageName="Form Category" />
+            <Breadcrumb pageName="Form Product" />
             <div className="grid grid-cols-1 gap-9 sm:grid-cols-2">
                 <div className="flex flex-col gap-9">
                     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -178,17 +198,27 @@ const FormProduct: React.FC = () => {
                                     />
                                     {errors.price && <span className="text-red-500">{errors.price.message}</span>}
                                 </div>
-                                <div>
-                                    <label className="mb-3 block text-black dark:text-white">
-                                        Image URL
-                                    </label>
-                                    <input
-                                        type="text"
-                                        placeholder="Image URL"
-                                        {...register('imageURL', { required: 'imageURL is required' })}
-                                        className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
-                                    />
-                                    {errors.imageURL && <span className="text-red-500">{errors.imageURL.message}</span>}
+
+                                <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+                                    <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
+                                        <h3 className="font-medium text-black dark:text-white">
+                                            File upload
+                                        </h3>
+                                    </div>
+                                    <div className="flex flex-col gap-5.5 p-6.5">
+                                        <div>
+                                            <label className="mb-3 block text-black dark:text-white">
+                                                Attach file
+                                            </label>
+                                            <input
+                                                type="file"
+                                                className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:py-3 file:px-5 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
+                                                onChange={(e) => setImg(e.target.files ? e.target.files[0] : null)}
+                                            />
+                                            <button type="button" onClick={handleClick} className="mt-2 bg-blue-500 text-white px-4 py-2 rounded">Upload Image</button>
+                                            {imageUrl && <img src={imageUrl} alt="Uploaded" className="mt-2 w-40 h-40" />}
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div className="mb-4.5">
@@ -278,13 +308,17 @@ const FormProduct: React.FC = () => {
                                         </span>
                                     </div>
                                 </div>
+
                                 <div className="flex justify-end gap-4 mt-6">
-                                    <button
-                                        type="submit"
-                                        className="inline-flex items-center justify-center bg-primary py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
-                                    >
-                                        Submit
-                                    </button>
+                                    <Link to="/tables/tableProduct">
+                                        <button
+                                            type="submit"
+                                            className="inline-flex items-center justify-center bg-primary py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
+                                        >
+                                            Submit
+                                        </button>
+                                    </Link>
+
                                     <Link
                                         to="/tables/tableProduct"
                                         className="inline-flex items-center justify-center

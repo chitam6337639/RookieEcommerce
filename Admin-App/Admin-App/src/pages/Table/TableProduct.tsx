@@ -90,9 +90,11 @@ const TableProduct = () => {
                     </p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-white">
-                      {product.imageURL}
-                    </p>
+                  <img
+                      src={product.imageURL}
+                      // alt={product.productName}
+                      className="w-20 h-20 object-cover"
+                    />
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <div className="flex items-center space-x-3.5">
