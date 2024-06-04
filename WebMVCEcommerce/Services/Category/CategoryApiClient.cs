@@ -10,7 +10,6 @@ namespace WebMVCEcommerce.Services.Category
 		public CategoryApiClient(HttpClient httpClient)
 		{
 			_httpClient = httpClient;
-			_httpClient.BaseAddress = new Uri("https://localhost:7245");
 		}
 		public async Task<List<CategoryDto>> GetCategories()
 		{

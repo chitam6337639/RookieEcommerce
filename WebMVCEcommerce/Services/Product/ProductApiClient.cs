@@ -12,7 +12,6 @@ namespace WebMVCEcommerce.Services.Product
         public ProductApiClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("https://localhost:7245");
         }
         public async Task<List<ProductDto>> GetProducts()
         {

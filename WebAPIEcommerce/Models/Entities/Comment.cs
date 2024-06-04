@@ -4,7 +4,7 @@
 	{
 		public int CommentId { get; set; }
 		public string? CommentText { get; set; }
-		public string CommentTitle { get; set; } = string.Empty;
+		public string? CommentTitle { get; set; } = string.Empty;
 		public decimal rating { get; set; }
 		public string? UserId { get; set; }
 		public User? User { get; set; }

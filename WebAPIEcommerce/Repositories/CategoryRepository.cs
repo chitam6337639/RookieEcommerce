@@ -108,6 +108,7 @@ namespace WebAPIEcommerce.Repositories
                     ProductId = p.ProductId,
                     ProductName = p.ProductName,
                     ProductDescription = p.ProductDescription,
+                    ImageURL = p.ImageURL,
                     Price = p.Price
                 }).ToList()
             };

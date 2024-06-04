@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using StandardLibrary.Comment;
 using StandardLibrary.Product;
-using WebMVCEcommerce.Models;
 using WebMVCEcommerce.Services.Product;
 
 namespace WebMVCEcommerce.Controllers
@@ -9,7 +10,7 @@ namespace WebMVCEcommerce.Controllers
     {
         private readonly ILogger<ProductController> _logger;
         private readonly IProductApiClient _productApiClient;
-        public ProductController(ILogger<ProductController> logger, IProductApiClient productApiClient)
+		public ProductController(ILogger<ProductController> logger, IProductApiClient productApiClient)
         {
             _logger = logger;
             _productApiClient = productApiClient;
@@ -21,6 +22,7 @@ namespace WebMVCEcommerce.Controllers
             //ViewData["Products"] = products;
             return View(products);
         }
+
 		
 		public async Task<IActionResult> Details(int id)
 		{

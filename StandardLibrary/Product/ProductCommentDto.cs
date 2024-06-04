@@ -11,5 +11,7 @@ namespace StandardLibrary.Product
 	{
 		public ProductDto Product { get; set; }
 		public List<CommentDto> Comments { get; set; }
+		public CreateCommentDto Input { get; set; } = new CreateCommentDto();
+
 	}
 }

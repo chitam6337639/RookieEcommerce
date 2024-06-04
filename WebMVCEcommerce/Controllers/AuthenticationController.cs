@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using StandardLibrary.Account;
 using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.IO;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WebAPIEcommerce.Data.Dtos.Account;
 using WebMVCEcommerce.Services.Authentication;
@@ -30,6 +35,7 @@ namespace WebMVCEcommerce.Controllers
             }
 
             var token = await _authenticationApiClient.RegisterAsync(registerDto);
+			
             if (token != null)
             {
                 SetTokenCookie(token);
@@ -49,9 +55,39 @@ namespace WebMVCEcommerce.Controllers
             }
 
             var token = await _authenticationApiClient.LoginAsync(loginDto);
-            if (token != null)
+			
+			
+			if (token != null)
             {
-                SetTokenCookie(token);
+				var handler = new JwtSecurityTokenHandler();
+				var jsonToken = handler.ReadJwtToken(token);
+
+				//var claims = new List<Claim>
+				//            {
+				//                new Claim(ClaimTypes.NameIdentifier, jsonToken.Subject),
+				//                new Claim("jwt", token),
+				//                new Claim(ClaimTypes.GivenName, jsonToken.Claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)?.Value ?? "")
+				//};
+
+				var claims = new List<Claim>
+		        {
+			        new Claim(ClaimTypes.NameIdentifier, jsonToken.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value ?? ""),
+			        new Claim("jwt", token),
+			        new Claim(ClaimTypes.GivenName, jsonToken.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.GivenName)?.Value ?? ""),
+			        new Claim(ClaimTypes.Email, jsonToken.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Email)?.Value ?? "")
+		        };
+
+				var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+				var authProperties = new AuthenticationProperties
+				{
+					IsPersistent = true,
+					ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(15)
+				};
+
+				await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+				///////////////////////////////
+				//SetTokenCookie(token);
                 return RedirectToAction("Index","Home");
             }
 
@@ -63,6 +99,7 @@ namespace WebMVCEcommerce.Controllers
 		public async Task<IActionResult> Logout()
 		{
 			await _authenticationApiClient.LogoutAsync();
+			HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 			Response.Cookies.Delete("jwt"); 
 			return RedirectToAction("Index", "Home");
 		}

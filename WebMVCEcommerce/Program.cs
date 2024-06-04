@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Net.Http.Headers;
+using WebMVCEcommerce.Configurations;
 using WebMVCEcommerce.Services.Authentication;
 using WebMVCEcommerce.Services.Category;
 using WebMVCEcommerce.Services.Product;
@@ -6,10 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
-builder.Services.AddHttpClient<IProductApiClient, ProductApiClient>();
-builder.Services.AddHttpClient<ICategoryApiClient, CategoryApiClient>();
-builder.Services.AddHttpClient<IAuthenticatonApiClient, AuthenticationApiClient>();
+builder.Services.ConfigureSerivces();
 
 var app = builder.Build();
 
