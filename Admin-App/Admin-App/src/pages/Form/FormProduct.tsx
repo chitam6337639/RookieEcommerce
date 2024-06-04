@@ -11,7 +11,7 @@ import { CreateProduct } from '../../models/CreateProduct';
 import { imageDb } from '../../firebaseImage/config'
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 interface FormValues {
@@ -315,6 +315,7 @@ const FormProduct: React.FC = () => {
 
                                     <button
                                         type="submit"
+                                        onClick={showToastMessage}
                                         className="inline-flex items-center justify-center bg-primary py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
                                     >
                                         Submit

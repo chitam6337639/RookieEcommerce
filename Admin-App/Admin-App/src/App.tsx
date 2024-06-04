@@ -20,6 +20,7 @@ import FormCategory from './pages/Form/FormCategory';
 import TableCategoryDetail from './pages/Table/TableCategoryDetail';
 import FormProduct from './pages/Form/FormProduct';
 import TableUser from './pages/Table/TableUser';
+import ECommerce from './pages/Dashboard/ECommerce';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -43,7 +44,7 @@ function App() {
           element={
             <>
               <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <TableCategory />
+              <ECommerce />
             </>
           }
         />
@@ -56,15 +57,6 @@ function App() {
             </>
           }
         />
-        {/* <Route
-          path="/calendar"
-          element={
-            <>
-              <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Calendar />
-            </>
-          }
-        /> */}
         <Route
           path="/profile"
           element={
@@ -121,6 +113,15 @@ function App() {
           }
         />
         <Route
+          path="/tables/tableCategory"
+          element={
+            <>
+              <PageTitle title="Tables Product| TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <TableCategory />
+            </>
+          }
+        />
+        <Route
           path="/tables/tableProduct"
           element={
             <>
@@ -135,42 +136,6 @@ function App() {
             <>
               <PageTitle title="Tables Product| TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <TableUser />
-            </>
-          }
-        />
-        <Route
-          path="/settings"
-          element={
-            <>
-              <PageTitle title="Settings | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Settings />
-            </>
-          }
-        />
-        <Route
-          path="/chart"
-          element={
-            <>
-              <PageTitle title="Basic Chart | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Chart />
-            </>
-          }
-        />
-        <Route
-          path="/ui/alerts"
-          element={
-            <>
-              <PageTitle title="Alerts | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Alerts />
-            </>
-          }
-        />
-        <Route
-          path="/ui/buttons"
-          element={
-            <>
-              <PageTitle title="Buttons | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Buttons />
             </>
           }
         />
