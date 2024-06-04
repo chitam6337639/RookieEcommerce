@@ -16,13 +16,6 @@ namespace WebAPIEcommerce.Controllers
             _productRepository = productRepository;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<ProductDto>> CreateProduct(CreateProductDto createProductDto)
-        {
-            var addedProduct = await _productRepository.CreateProduct(createProductDto);
-            return CreatedAtAction(nameof(GetProducts), new { id = addedProduct.ProductName }, addedProduct);
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
@@ -41,8 +34,14 @@ namespace WebAPIEcommerce.Controllers
             }
             return Ok(product);
         }
+		[HttpPost]
+		public async Task<ActionResult<ProductDto>> CreateProduct(CreateProductDto createProductDto)
+		{
+			var addedProduct = await _productRepository.CreateProduct(createProductDto);
+			return CreatedAtAction(nameof(GetProducts), new { id = addedProduct.ProductName }, addedProduct);
+		}
 
-        [HttpPut("{id}")]
+		[HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, CreateProductDto createProductDto)
         {
             var result = await _productRepository.UpdateProduct(id, createProductDto);

@@ -29,7 +29,27 @@ namespace WebAPIEcommerce.Controllers
 			return Ok(mappedCategories);
 		}
 
+		[HttpGet("{id}/details")]
+		public async Task<IActionResult> GetCategoryDetail(int id)
+		{
+			var categoryDetail = await _categoryRepository.GetCategoryDetailAsync(id);
+			if (categoryDetail == null)
+			{
+				return NotFound();
+			}
+			return Ok(categoryDetail);
+		}
 
+		[HttpGet("{id}/subcategories")]
+		public async Task<IActionResult> GetSubCategories(int id)
+		{
+			var subCategories = await _categoryRepository.GetCategoryWithSubCategoriesAsync(id);
+			if (subCategories == null)
+			{
+				return NotFound();
+			}
+			return Ok(subCategories.SubCategories);
+		}
 
 
 		[HttpPost("create")]
@@ -68,41 +88,6 @@ namespace WebAPIEcommerce.Controllers
 			}
 
 			return Ok(updatedCategory);
-		}
-
-
-
-		//[HttpDelete("delete/{id}")]
-  //      public async Task<IActionResult> DeleteCategory(int id)
-  //      {
-  //          var result = await _categoryRepository.DeleteCategory(id);
-  //          if (!result)
-  //          {
-  //              return NotFound();
-  //          }
-  //          return NoContent();
-  //      }
-
-		[HttpGet("{id}/details")]
-		public async Task<IActionResult> GetCategoryDetail(int id)
-		{
-			var categoryDetail = await _categoryRepository.GetCategoryDetailAsync(id);
-			if (categoryDetail == null)
-			{
-				return NotFound();
-			}
-			return Ok(categoryDetail);
-		}
-
-		[HttpGet("{id}/subcategories")]
-		public async Task<IActionResult> GetSubCategories(int id)
-		{
-			var subCategories = await _categoryRepository.GetCategoryWithSubCategoriesAsync(id);
-			if (subCategories == null)
-			{
-				return NotFound();
-			}
-			return Ok(subCategories.SubCategories);
 		}
 
 		[HttpDelete("delete/{id}")]

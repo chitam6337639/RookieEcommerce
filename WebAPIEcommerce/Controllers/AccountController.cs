@@ -20,7 +20,21 @@ namespace WebAPIEcommerce.Controllers
             _accountRepository = accountRepository;
         }
 
-        [HttpPost("register")]
+		[HttpGet("allusers")]
+		public async Task<IActionResult> GetAllUsers()
+		{
+			try
+			{
+				var allUsers = await _accountRepository.GetAllUsersAsync();
+				return Ok(allUsers);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, ex.Message);
+			}
+		}
+
+		[HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
             if (!ModelState.IsValid)
@@ -78,21 +92,5 @@ namespace WebAPIEcommerce.Controllers
 				return StatusCode(500, ex.Message);
 			}
 		}
-
-		[HttpGet("allusers")]
-		public async Task<IActionResult> GetAllUsers()
-		{
-			try
-			{
-				var allUsers = await _accountRepository.GetAllUsersAsync();
-				return Ok(allUsers);
-			}
-			catch (Exception ex)
-			{
-				return StatusCode(500, ex.Message);
-			}
-		}
-
-
 	}
 }
