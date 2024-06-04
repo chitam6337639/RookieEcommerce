@@ -23,8 +23,8 @@ namespace WebAPIEcommerce.Repositories
 			var claims = new List<Claim>
 			{
 				new Claim(JwtRegisteredClaimNames.Email, user.Email),
-				new Claim(JwtRegisteredClaimNames.GivenName, user.UserName)
-
+				new Claim(JwtRegisteredClaimNames.GivenName, user.UserName),
+				new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
 			};
 
 			var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
@@ -35,7 +35,7 @@ namespace WebAPIEcommerce.Repositories
 				Expires = DateTime.Now.AddDays(7),
 				SigningCredentials = creds,
 				Issuer = _config["JWT:Issuer"],
-				Audience = _config["JWT:Audience"]
+				Audience = _config["JWT:Audience"],
 			};
 
 			var tokenHandler = new JwtSecurityTokenHandler();

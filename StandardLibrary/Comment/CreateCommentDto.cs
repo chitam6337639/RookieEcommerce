@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace StandardLibrary.Comment
 {
-	public class CommentDto
+	public class CreateCommentDto
 	{
-		public int CommentId { get; set; }
-		public string UserName { get; set; }
 		public string? CommentText { get; set; }
 		public string CommentTitle { get; set; }
 		public decimal Rating { get; set; }

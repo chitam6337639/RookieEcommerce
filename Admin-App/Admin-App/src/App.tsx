@@ -116,7 +116,7 @@ function App() {
           path="/tables/tableCategory"
           element={
             <>
-              <PageTitle title="Tables Product| TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <PageTitle title="Tables Category| TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <TableCategory />
             </>
           }
@@ -134,7 +134,7 @@ function App() {
           path="/tables/tableUser"
           element={
             <>
-              <PageTitle title="Tables Product| TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <PageTitle title="Tables User| TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <TableUser />
             </>
           }
