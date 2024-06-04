@@ -196,6 +196,15 @@ const TableCategoryDetail = () => {
                         </tbody>
                     </table>
                 </div>
+                <div className="flex justify-end mb-4">
+                    <Link
+                        to="/tables/tableCategory"
+                        className="inline-flex items-center justify-center bg-primary py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
+                    >
+                        Back
+                    </Link>
+                </div>
+
             </div>
         </DefaultLayout>
     );

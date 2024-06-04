@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '../../layout/DefaultLayout';
 import { createCategory, getAllCategory,updateCategory } from '../../services/category/categoryService';
@@ -21,6 +21,7 @@ const FormCategory: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedParentCategory, setSelectedParentCategory] = useState<Category | undefined>(undefined);
   const selectedOption = watch('selectedOption', '');
+  const navigate = useNavigate();
 
   const queryParams = new URLSearchParams(location.search);
   const parentId = queryParams.get("parentId")
@@ -69,6 +70,7 @@ const FormCategory: React.FC = () => {
       if (categoryFromState) {
         await updateCategory(categoryFromState.categoryId, { categoryName: data.categoryName, categoryDescription: data.categoryDescription });
         console.log('Category updated successfully');
+
       } else {
         // Ngược lại, thực hiện create
         const response = await createCategory(categoryDto);
@@ -76,7 +78,12 @@ const FormCategory: React.FC = () => {
         console.log('Category created successfully');
       }
       // history.push('/path/to/redirect'); // Điều hướng sau khi tạo hoặc chỉnh sửa thành công
-      
+      if (categoryDto.parentId){
+        //Redirect to subcategory
+        navigate(`/table-category-detail/${categoryDto.parentId}`)
+      } else {
+        navigate("/tables/tableCategory")
+      }
     } catch (error) {
       console.error('Error:', error);
     }
@@ -181,13 +188,13 @@ const FormCategory: React.FC = () => {
                   >
                     Submit
                   </button>
-                  <Link
-                    to="/tables/tableCategory"
+                  <button
+                    onClick={() => navigate(-1)}
                     className="inline-flex items-center justify-center
                     bg-primary py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
                   >
                     Back
-                  </Link>
+                  </button>
                 </div>
               </div>
             </form>
