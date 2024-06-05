@@ -76,18 +76,6 @@ namespace WebAPIEcommerce.Repositories
             };
         }
 
-        //public async Task<bool> DeleteCategory(int categoryId)
-        //{
-        //    var category = await _context.Categories.FindAsync(categoryId);
-        //    if (category == null)
-        //    {
-        //        return false;
-        //    }
-        //    _context.Categories.Remove(category);
-        //    await _context.SaveChangesAsync();
-        //    return true;
-        //}
-
         public async Task<CategoryDetailDto> GetCategoryDetailAsync(int categoryId)
         {
             var category = await _context.Categories

@@ -53,9 +53,7 @@ namespace WebMVCEcommerce.Configurations
 			services.AddHttpClient<IProductApiClient, ProductApiClient>(configureClient);
 			services.AddHttpClient<ICategoryApiClient, CategoryApiClient>(configureClient);
 			services.AddHttpClient<ICommentApiClient, CommentApiClient>(configureClient);
-
 			services.AddHttpClient<IAuthenticatonApiClient, AuthenticationApiClient>(configureClient);
-
 			return services;
 		}
 	}

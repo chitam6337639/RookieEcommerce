@@ -1,10 +1,5 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Net.Http.Headers;
 using WebMVCEcommerce.Configurations;
-using WebMVCEcommerce.Services.Authentication;
-using WebMVCEcommerce.Services.Category;
-using WebMVCEcommerce.Services.Product;
+
 
 var builder = WebApplication.CreateBuilder(args);
 

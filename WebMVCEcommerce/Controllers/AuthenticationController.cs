@@ -38,7 +38,7 @@ namespace WebMVCEcommerce.Controllers
 			
             if (token != null)
             {
-                SetTokenCookie(token);
+         
                 return RedirectToAction("Index");
             }
 
@@ -92,7 +92,7 @@ namespace WebMVCEcommerce.Controllers
             }
 
             ModelState.AddModelError("", "Login failed");
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Authentication");
         }
 
 		[HttpPost]

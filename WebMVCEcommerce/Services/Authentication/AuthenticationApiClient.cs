@@ -1,4 +1,6 @@
-﻿using StandardLibrary.Account;
+﻿using Newtonsoft.Json;
+using StandardLibrary.Account;
+using System.Text;
 using WebAPIEcommerce.Data.Dtos.Account;
 
 namespace WebMVCEcommerce.Services.Authentication
@@ -15,7 +17,10 @@ namespace WebMVCEcommerce.Services.Authentication
 
         public async Task<string> RegisterAsync(RegisterDto registerDto)
         {
-            var response = await _httpClient.PostAsJsonAsync("/api/account/register", registerDto);
+			//var jsonData = JsonConvert.SerializeObject(registerDto);
+
+			//var bodyContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+			var response = await _httpClient.PostAsJsonAsync("/api/account/register", registerDto);
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadFromJsonAsync<NewUserDto>();
